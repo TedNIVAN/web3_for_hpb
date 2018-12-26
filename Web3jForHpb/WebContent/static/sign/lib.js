@@ -9,7 +9,6 @@ var util = require('ethjs-util');
 // BigNumber
 var BN = require('bn.js');
 var Buffer = require('safe-buffer').Buffer;
-var Buffer = require('safe-buffer').Buffer;
 var rlp = require('rlp');
 window.randomBytes = randomBytes;
 window.createKeccakHash = createKeccakHash;
