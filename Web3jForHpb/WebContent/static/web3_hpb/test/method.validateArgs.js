@@ -1,5 +1,6 @@
 var chai = require('chai');
 var assert = chai.assert;
+<<<<<<< HEAD
 var Method = require('../lib/web3_hpb/method');
 var errors = require('../lib/web3_hpb/errors');
 
@@ -28,6 +29,36 @@ describe('lib/web3_hpb/method', function () {
         
             // given
             var method = new Method({
+=======
+var Mhpbod = require('../lib/web3_hpb/method');
+var errors = require('../lib/web3_hpb/errors');
+
+describe('lib/web3_hpb/method', function () {
+    describe('validateArgs', function () {
+        it('should pass', function () {
+            
+            // given
+            var method = new Mhpbod({
+                params: 1
+            });
+
+            var args = [1];
+            var args2 = ['heloas'];
+
+            // when
+            var test = function () { method.validateArgs(args); };
+            var test2 = function () { method.validateArgs(args2); };
+
+            // then
+            assert.doesNotThrow(test);
+            assert.doesNotThrow(test2);
+        });
+
+        it('should return call based on args', function () {
+        
+            // given
+            var method = new Mhpbod({
+>>>>>>> branch 'master' of https://github.com/wgllele/web3_for_hpb.git
                 params: 2
             });
 

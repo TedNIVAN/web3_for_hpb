@@ -5,6 +5,7 @@
 
 var formatters = require('../formatters');
 var utils = require('../../utils/utils');
+<<<<<<< HEAD
 var Method = require('../method');
 var Property = require('../property');
 var c = require('../../utils/config');
@@ -220,6 +221,223 @@ var methods = function () {
     });
 
     var getWork = new Method({
+=======
+var Mhpbod = require('../method');
+var Property = require('../property');
+var c = require('../../utils/config');
+var Contract = require('../contract');
+var watches = require('./watches');
+var Filter = require('../filter');
+var IsSyncing = require('../syncing');
+var namereg = require('../namereg');
+var Iban = require('../iban');
+var transfer = require('../transfer');
+
+var blockCall = function (args) {
+    return (utils.isString(args[0]) && args[0].indexOf('0x') === 0) ? "hpb_getBlockByHash" : "hpb_getBlockByNumber";
+};
+
+var transactionFromBlockCall = function (args) {
+    return (utils.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'hpb_getTransactionByBlockHashAndIndex' : 'hpb_getTransactionByBlockNumberAndIndex';
+};
+
+var uncleCall = function (args) {
+    return (utils.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'hpb_getUncleByBlockHashAndIndex' : 'hpb_getUncleByBlockNumberAndIndex';
+};
+
+var getBlockTransactionCountCall = function (args) {
+    return (utils.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'hpb_getBlockTransactionCountByHash' : 'hpb_getBlockTransactionCountByNumber';
+};
+
+var uncleCountCall = function (args) {
+    return (utils.isString(args[0]) && args[0].indexOf('0x') === 0) ? 'hpb_getUncleCountByBlockHash' : 'hpb_getUncleCountByBlockNumber';
+};
+
+function Hpb(web3_hpb) {
+    this._requestManager = web3_hpb._requestManager;
+
+    var self = this;
+
+    methods().forEach(function(method) {
+        method.attachToObject(self);
+        method.setRequestManager(self._requestManager);
+    });
+
+    properties().forEach(function(p) {
+        p.attachToObject(self);
+        p.setRequestManager(self._requestManager);
+    });
+
+
+    this.iban = Iban;
+    this.sendIBANTransaction = transfer.bind(null, this);
+}
+
+Object.defineProperty(Hpb.prototype, 'defaultBlock', {
+    get: function () {
+        return c.defaultBlock;
+    },
+    set: function (val) {
+        c.defaultBlock = val;
+        return val;
+    }
+});
+
+Object.defineProperty(Hpb.prototype, 'defaultAccount', {
+    get: function () {
+        return c.defaultAccount;
+    },
+    set: function (val) {
+        c.defaultAccount = val;
+        return val;
+    }
+});
+
+var methods = function () {
+    var getBalance = new Mhpbod({
+        name: 'getBalance',
+        call: 'hpb_getBalance',
+        params: 2,
+        inputFormatter: [formatters.inputAddressFormatter, formatters.inputDefaultBlockNumberFormatter],
+        outputFormatter: formatters.outputBigNumberFormatter
+    });
+
+    var getStorageAt = new Mhpbod({
+        name: 'getStorageAt',
+        call: 'hpb_getStorageAt',
+        params: 3,
+        inputFormatter: [null, utils.toHex, formatters.inputDefaultBlockNumberFormatter]
+    });
+
+    var getCode = new Mhpbod({
+        name: 'getCode',
+        call: 'hpb_getCode',
+        params: 2,
+        inputFormatter: [formatters.inputAddressFormatter, formatters.inputDefaultBlockNumberFormatter]
+    });
+
+    var getBlock = new Mhpbod({
+        name: 'getBlock',
+        call: blockCall,
+        params: 2,
+        inputFormatter: [formatters.inputBlockNumberFormatter, function (val) { return !!val; }],
+        outputFormatter: formatters.outputBlockFormatter
+    });
+
+    var getUncle = new Mhpbod({
+        name: 'getUncle',
+        call: uncleCall,
+        params: 2,
+        inputFormatter: [formatters.inputBlockNumberFormatter, utils.toHex],
+        outputFormatter: formatters.outputBlockFormatter,
+
+    });
+
+    var getBlockTransactionCount = new Mhpbod({
+        name: 'getBlockTransactionCount',
+        call: getBlockTransactionCountCall,
+        params: 1,
+        inputFormatter: [formatters.inputBlockNumberFormatter],
+        outputFormatter: utils.toDecimal
+    });
+
+    var getBlockUncleCount = new Mhpbod({
+        name: 'getBlockUncleCount',
+        call: uncleCountCall,
+        params: 1,
+        inputFormatter: [formatters.inputBlockNumberFormatter],
+        outputFormatter: utils.toDecimal
+    });
+
+    var getTransaction = new Mhpbod({
+        name: 'getTransaction',
+        call: 'hpb_getTransactionByHash',
+        params: 1,
+        outputFormatter: formatters.outputTransactionFormatter
+    });
+
+    var getTransactionFromBlock = new Mhpbod({
+        name: 'getTransactionFromBlock',
+        call: transactionFromBlockCall,
+        params: 2,
+        inputFormatter: [formatters.inputBlockNumberFormatter, utils.toHex],
+        outputFormatter: formatters.outputTransactionFormatter
+    });
+
+    var getTransactionReceipt = new Mhpbod({
+        name: 'getTransactionReceipt',
+        call: 'hpb_getTransactionReceipt',
+        params: 1,
+        outputFormatter: formatters.outputTransactionReceiptFormatter
+    });
+
+    var getTransactionCount = new Mhpbod({
+        name: 'getTransactionCount',
+        call: 'hpb_getTransactionCount',
+        params: 2,
+        inputFormatter: [null, formatters.inputDefaultBlockNumberFormatter],
+        outputFormatter: utils.toDecimal
+    });
+
+    var sendRawTransaction = new Mhpbod({
+        name: 'sendRawTransaction',
+        call: 'hpb_sendRawTransaction',
+        params: 1,
+        inputFormatter: [null]
+    });
+
+    var sendTransaction = new Mhpbod({
+        name: 'sendTransaction',
+        call: 'hpb_sendTransaction',
+        params: 1,
+        inputFormatter: [formatters.inputTransactionFormatter]
+    });
+
+    var signTransaction = new Mhpbod({
+        name: 'signTransaction',
+        call: 'hpb_signTransaction',
+        params: 1,
+        inputFormatter: [formatters.inputTransactionFormatter]
+    });
+
+    var sign = new Mhpbod({
+        name: 'sign',
+        call: 'hpb_sign',
+        params: 2,
+        inputFormatter: [formatters.inputAddressFormatter, null]
+    });
+
+    var call = new Mhpbod({
+        name: 'call',
+        call: 'hpb_call',
+        params: 2,
+        inputFormatter: [formatters.inputCallFormatter, formatters.inputDefaultBlockNumberFormatter]
+    });
+
+    var estimateGas = new Mhpbod({
+        name: 'estimateGas',
+        call: 'hpb_estimateGas',
+        params: 1,
+        inputFormatter: [formatters.inputCallFormatter],
+        outputFormatter: utils.toDecimal
+    });
+
+    var getLogs = new Mhpbod({
+        name: 'getLogs',
+        call: 'hpb_getLogs',
+        params: 1,
+        inputFormatter: [formatters.inputGetLogsFormatter],
+        outputFormatter: formatters.outputLogFormatter
+    });
+
+    var submitWork = new Mhpbod({
+        name: 'submitWork',
+        call: 'hpb_submitWork',
+        params: 3
+    });
+
+    var getWork = new Mhpbod({
+>>>>>>> branch 'master' of https://github.com/wgllele/web3_for_hpb.git
         name: 'getWork',
         call: 'hpb_getWork',
         params: 0

@@ -1,5 +1,6 @@
 var chai = require('chai');
 var web3_hpb = require('../index');
+<<<<<<< HEAD
 var testMethod = require('./helpers/test.method.js');
 
 var method = 'submitWork';
@@ -14,4 +15,20 @@ var tests = [
 }];
 
 testMethod.runTests('hpb', method, tests);
+=======
+var testMhpbod = require('./helpers/test.method.js');
+
+var method = 'submitWork';
+
+var tests = [
+{
+    args: ['0x567890abcdef5555', '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef', '0xcdef1234567890abcdef1234567890abcdef0x1234567890abcf1234567890ab'],
+    formattedArgs: ['0x567890abcdef5555', '0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef', '0xcdef1234567890abcdef1234567890abcdef0x1234567890abcf1234567890ab'],
+    result: true,
+    formattedResult: true,
+    call: 'hpb_'+ method
+}];
+
+testMhpbod.runTests('hpb', method, tests);
+>>>>>>> branch 'master' of https://github.com/wgllele/web3_for_hpb.git
 

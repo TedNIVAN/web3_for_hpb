@@ -209,5 +209,9 @@ console.log(hpbTestContract.getContractAddr.call());
 
 nginx配置
 location /HpbBallot/static/web3hpb{
+<<<<<<< HEAD
 	proxy_pass http://pub.node.hpb.io;
+=======
+	proxy_pass http://127.0.0.1:8545;
+>>>>>>> branch 'master' of https://github.com/wgllele/web3_for_hpb.git
 }

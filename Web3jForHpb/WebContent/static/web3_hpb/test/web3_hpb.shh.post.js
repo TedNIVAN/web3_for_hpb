@@ -1,6 +1,7 @@
 var chai = require('chai');
 var web3_hpb = require('../index');
 var web3_hpb = new web3_hpb();
+<<<<<<< HEAD
 var testMethod = require('./helpers/test.method.js');
 
 var method = 'post';
@@ -32,4 +33,37 @@ var tests = [{
 }];
 
 testMethod.runTests('shh', method, tests);
+=======
+var testMhpbod = require('./helpers/test.method.js');
+
+var method = 'post';
+
+var tests = [{
+    args: [{
+        symKeyID: '123123123ff',
+        sig: '44ffdd55',
+        topic: '0xffdd11',
+        payload: web3_hpb.toHex('12345'),
+        ttl: 100,
+        minPow: 0.5,
+        powTarget: 3,
+        padding: '0xffdd4455'
+    }],
+    formattedArgs: [{
+        symKeyID: '123123123ff',
+        sig: '44ffdd55',
+        topic: '0xffdd11',
+        payload: web3_hpb.toHex('12345'),
+        ttl: 100,
+        minPow: 0.5,
+        powTarget: 3,
+        padding: '0xffdd4455'
+    }],
+    result: true,
+    formattedResult: true,
+    call: 'shh_'+ method
+}];
+
+testMhpbod.runTests('shh', method, tests);
+>>>>>>> branch 'master' of https://github.com/wgllele/web3_for_hpb.git
 

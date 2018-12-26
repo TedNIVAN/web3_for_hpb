@@ -1,5 +1,6 @@
 var chai = require('chai');
 var assert = chai.assert;
+<<<<<<< HEAD
 var Method = require('../lib/web3_hpb/method');
 
 describe('lib/web3_hpb/method', function () {
@@ -27,6 +28,35 @@ describe('lib/web3_hpb/method', function () {
             };
             
             var method = new Method({
+=======
+var Mhpbod = require('../lib/web3_hpb/method');
+
+describe('lib/web3_hpb/method', function () {
+    describe('getCall', function () {
+        it('should return call name', function () {
+            
+            // given
+            var call = 'hello_call_world';
+            var method = new Mhpbod({
+                call: call
+            });
+
+            // when
+            var result = method.getCall();
+
+            // then
+            assert.equal(call, result);
+        });
+
+        it('should return call based on args', function () {
+            
+            // given
+            var call = function (args) {
+                return args ? args.length.toString() : '0';
+            };
+            
+            var method = new Mhpbod({
+>>>>>>> branch 'master' of https://github.com/wgllele/web3_for_hpb.git
                 call: call
             });
             

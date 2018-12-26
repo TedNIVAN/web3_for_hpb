@@ -12,6 +12,7 @@ var tests = [{
         outputFormatter: web3_hpb._extend.formatters.outputBigNumberFormatter
     })]
 },{
+<<<<<<< HEAD
     methods: [new web3_hpb._extend.Method({
         name: 'getBalance',
         call: 'hpb_getBalance',
@@ -27,6 +28,23 @@ var tests = [{
         outputFormatter: web3_hpb._extend.formatters.outputBigNumberFormatter
     })],
     methods: [new web3_hpb._extend.Method({
+=======
+    methods: [new web3_hpb._extend.Mhpbod({
+        name: 'getBalance',
+        call: 'hpb_getBalance',
+        params: 2,
+        inputFormatter: [web3_hpb._extend.utils.toAddress, web3_hpb._extend.formatters.inputDefaultBlockNumberFormatter],
+        outputFormatter: web3_hpb._extend.formatters.outputBigNumberFormatter
+    })]
+},{
+    property: 'admin',
+    properties: [new web3_hpb._extend.Property({
+        name: 'gasPrice',
+        getter: 'hpb_gasPrice',
+        outputFormatter: web3_hpb._extend.formatters.outputBigNumberFormatter
+    })],
+    methods: [new web3_hpb._extend.Mhpbod({
+>>>>>>> branch 'master' of https://github.com/wgllele/web3_for_hpb.git
         name: 'getBalance',
         call: 'hpb_getBalance',
         params: 2,
